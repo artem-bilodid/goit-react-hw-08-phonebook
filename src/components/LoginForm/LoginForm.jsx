@@ -1,8 +1,10 @@
 import s from './LoginForm.module.scss';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { authOperations } from 'redux/auth';
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,19 +28,20 @@ const LoginForm = ({ onSubmit }) => {
     }
   };
 
-  const handleSubmit = event => {
+  const performLogin = async event => {
     event.preventDefault();
 
-    const name = event.target.name.value;
-    const number = event.target.number.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
 
-    onSubmit(name, number);
+    dispatch(authOperations.login({ email, password }));
+
     resetFieldsToDefault();
   };
 
   return (
     <div>
-      <form className={s.form} onSubmit={handleSubmit}>
+      <form className={s.form} onSubmit={performLogin}>
         <label className={s.label}>
           Email
           <input type="email" name="email" value={email} onChange={handleChange} required />
@@ -59,10 +62,6 @@ const LoginForm = ({ onSubmit }) => {
       </form>
     </div>
   );
-};
-
-LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

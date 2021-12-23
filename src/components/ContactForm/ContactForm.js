@@ -32,7 +32,7 @@ const ContactForm = ({ onSubmit }) => {
     const name = event.target.name.value;
     const number = event.target.number.value;
 
-    onSubmit(name, number);
+    onSubmit({ name, number });
     resetFieldsToDefault();
   };
 

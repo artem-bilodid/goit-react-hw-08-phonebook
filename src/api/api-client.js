@@ -1,6 +1,4 @@
 import API_CONST from './api-const';
-import { useSelector } from 'react-redux';
-import { authSelectors } from 'redux/auth';
 
 const {
   BASE_URL,
@@ -11,33 +9,40 @@ const {
   CONTACTS_ENDPOINT,
 } = API_CONST;
 
-const token = useSelector(authSelectors.)
+export let token = '';
 
-export const signup = async (name, email, password) => {
+export const setToken = newToken => {
+  token = newToken;
+};
+
+export const signup = async ({ name, email, password }) => {
   try {
     const response = await fetch(`${BASE_URL}/${SIGNUP_ENDPOINT}`, {
       method: 'POST',
       body: JSON.stringify({ name, email, password }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) throw new Error(response.statusText);
-    const contacts = await response.json();
-    return contacts;
+    const authInfo = await response.json();
+    return authInfo;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const login = async (name, password) => {
+export const login = async ({ email, password }) => {
   try {
     const response = await fetch(`${BASE_URL}/${LOGIN_ENDPOINT}`, {
       method: 'POST',
-      body: JSON.stringify({ name, password }),
+      body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
     });
     if (!response.ok) throw new Error(response.statusText);
-    const contacts = await response.json();
-    return contacts;
+    const authInfo = await response.json();
+    return authInfo;
   } catch (error) {
     throw new Error(error);
   }
@@ -47,11 +52,11 @@ export const logout = async () => {
   try {
     const response = await fetch(`${BASE_URL}/${LOGOUT_ENDPOINT}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error(response.statusText);
-    const contacts = await response.json();
-    return contacts;
+    const authInfo = await response.json();
+    return authInfo;
   } catch (error) {
     throw new Error(error);
   }
@@ -60,22 +65,35 @@ export const logout = async () => {
 export const getCurrentUser = async () => {
   try {
     const response = await fetch(`${BASE_URL}/${CURRENT_USER_ENDPOINT}`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error(response.statusText);
-    const contacts = await response.json();
-    return contacts;
+    const userInfo = await response.json();
+    return userInfo;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const addContact = async (name, number) => {
+export const getContacts = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/${CONTACTS_ENDPOINT}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) throw new Error(response.statusText);
+    const newContact = await response.json();
+    return newContact;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const addContact = async ({ name, number }) => {
   try {
     const response = await fetch(`${BASE_URL}/${CONTACTS_ENDPOINT}`, {
       method: 'POST',
       body: JSON.stringify({ name, number }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error(response.statusText);
     const newContact = await response.json();
@@ -89,6 +107,7 @@ export const deleteContact = async id => {
   try {
     const response = await fetch(`${BASE_URL}/${CONTACTS_ENDPOINT}/${id}`, {
       method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error(response.statusText);
     const deletedContact = await response.json();

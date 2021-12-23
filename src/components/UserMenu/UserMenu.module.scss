@@ -21,3 +21,11 @@
   @extend .link;
   color: color('accent');
 }
+
+.name {
+  margin: 0;
+}
+
+.logout {
+  cursor: pointer;
+}

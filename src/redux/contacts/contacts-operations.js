@@ -1,4 +1,4 @@
-import * as API from '../../api/api-client';
+import * as API from 'api/api-client';
 import {
   getContactsRequest,
   getContactsSuccess,
@@ -11,6 +11,10 @@ import {
   deleteContactError,
 } from './contacts-actions';
 
+export const setToken = token => {
+  API.setToken(token);
+};
+
 export const getContacts = () => async dispatch => {
   dispatch(getContactsRequest());
   try {
@@ -21,15 +25,17 @@ export const getContacts = () => async dispatch => {
   }
 };
 
-export const addContact = (name, number) => async dispatch => {
-  dispatch(addContactRequest());
-  try {
-    await API.addContact(name, number);
-    dispatch(addContactSuccess());
-  } catch (error) {
-    dispatch(addContactError());
-  }
-};
+export const addContact =
+  ({ name, number }) =>
+  async dispatch => {
+    dispatch(addContactRequest());
+    try {
+      await API.addContact({ name, number });
+      dispatch(addContactSuccess());
+    } catch (error) {
+      dispatch(addContactError());
+    }
+  };
 
 export const deleteContact = id => async dispatch => {
   dispatch(deleteContactRequest());

@@ -1,8 +1,11 @@
 import s from './RegisterForm.module.scss';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { authOperations } from 'redux/auth';
 
-const RegisterForm = ({ onSubmit }) => {
+const RegisterForm = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -35,9 +38,11 @@ const RegisterForm = ({ onSubmit }) => {
     event.preventDefault();
 
     const name = event.target.name.value;
-    const number = event.target.number.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
 
-    onSubmit(name, number);
+    dispatch(authOperations.signup({ name, email, password }));
+
     resetFieldsToDefault();
   };
 
@@ -46,15 +51,7 @@ const RegisterForm = ({ onSubmit }) => {
       <form className={s.form} onSubmit={handleSubmit}>
         <label className={s.label}>
           Name
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={handleChange}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            required
-          />
+          <input type="text" name="name" value={name} onChange={handleChange} required />
         </label>
         <label className={s.label}>
           Email
@@ -65,6 +62,8 @@ const RegisterForm = ({ onSubmit }) => {
           <input
             type="password"
             name="password"
+            pattern="^.{7,}$"
+            title="Минимальная длина пароля 7 символов"
             value={password}
             onChange={handleChange}
             required
@@ -76,10 +75,6 @@ const RegisterForm = ({ onSubmit }) => {
       </form>
     </div>
   );
-};
-
-RegisterForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;
