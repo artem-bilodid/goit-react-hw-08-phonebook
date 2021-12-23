@@ -13,7 +13,7 @@ export const login =
       const { user, token } = await API.login({ email, password });
       dispatch(authActions.loginSuccess({ user, token }));
     } catch (error) {
-      dispatch(authActions.loginError());
+      dispatch(authActions.loginError(error.message));
     }
   };
 
@@ -25,7 +25,7 @@ export const signup =
       const { user, token } = await API.signup({ name, email, password });
       dispatch(authActions.signupSuccess({ user, token }));
     } catch (error) {
-      dispatch(authActions.signupError());
+      dispatch(authActions.signupError(error.message));
     }
   };
 
@@ -35,7 +35,7 @@ export const logout = () => async dispatch => {
     await API.logout();
     dispatch(authActions.logoutSuccess());
   } catch (error) {
-    dispatch(authActions.logoutError());
+    dispatch(authActions.logoutError(error.message));
   }
 };
 
@@ -45,6 +45,6 @@ export const getCurrentUser = () => async dispatch => {
     const user = await API.getCurrentUser();
     dispatch(authActions.getCurrentUserSuccess({ user }));
   } catch (error) {
-    dispatch(authActions.getCurrentUserError());
+    dispatch(authActions.getCurrentUserError(error.message));
   }
 };

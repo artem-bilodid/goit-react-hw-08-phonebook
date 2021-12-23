@@ -10,7 +10,6 @@ const UserMenu = props => {
   const dispatch = useDispatch();
   const token = useSelector(authSelectors.getToken);
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-  const isFetchingCurrentUser = useSelector(authSelectors.getIsFetchingCurrentUser);
   const { name } = useSelector(authSelectors.getUser);
 
   useEffect(() => {

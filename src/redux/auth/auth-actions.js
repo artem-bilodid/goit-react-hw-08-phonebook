@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
+export const clearError = createAction('auth/error/clear');
 export const signupRequest = createAction('auth/signup/request');
 export const signupSuccess = createAction('auth/signup/success');
 export const signupError = createAction('auth/signup/error');

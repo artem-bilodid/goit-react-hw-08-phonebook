@@ -25,11 +25,19 @@ export const signup = async ({ name, email, password }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      const message = await response.json();
+      if (message.code === 11000) {
+        throw new Error(
+          `User with Email '${email}' already exists. Please try another Email address`,
+        );
+      }
+      throw new Error(`Cannot register a user due to an error. Please try again later`);
+    }
     const authInfo = await response.json();
     return authInfo;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -40,11 +48,13 @@ export const login = async ({ email, password }) => {
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error('Incorrect Email or Password');
+    }
     const authInfo = await response.json();
     return authInfo;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -54,11 +64,13 @@ export const logout = async () => {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error('Unexpected Error happened');
+    }
     const authInfo = await response.json();
     return authInfo;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -67,11 +79,13 @@ export const getCurrentUser = async () => {
     const response = await fetch(`${BASE_URL}/${CURRENT_USER_ENDPOINT}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error('Unexpected error happened');
+    }
     const userInfo = await response.json();
     return userInfo;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -80,11 +94,13 @@ export const getContacts = async () => {
     const response = await fetch(`${BASE_URL}/${CONTACTS_ENDPOINT}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error('Unexpected error happened');
+    }
     const newContact = await response.json();
     return newContact;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -95,11 +111,13 @@ export const addContact = async ({ name, number }) => {
       body: JSON.stringify({ name, number }),
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error('Unexpected error happened');
+    }
     const newContact = await response.json();
     return newContact;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -109,10 +127,12 @@ export const deleteContact = async id => {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error('Unexpected error happened');
+    }
     const deletedContact = await response.json();
     return deletedContact;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
