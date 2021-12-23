@@ -78,4 +78,8 @@ const RegisterForm = ({ onSubmit }) => {
   );
 };
 
+RegisterForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
 export default RegisterForm;

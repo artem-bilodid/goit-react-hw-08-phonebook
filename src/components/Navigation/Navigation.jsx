@@ -1,5 +1,6 @@
 import s from './Navigation.module.scss';
 import { NavLink } from 'react-router-dom';
+import UserMenu from 'components/UserMenu';
 
 const Navigation = props => {
   const defineLinkClass = ({ isActive }) => (isActive ? s.active : s.link);
@@ -9,12 +10,9 @@ const Navigation = props => {
       <NavLink className={defineLinkClass} to="/">
         Contacts
       </NavLink>
-      <NavLink className={defineLinkClass} to="/register">
-        Register
-      </NavLink>
-      <NavLink className={defineLinkClass} to="/login">
-        Login
-      </NavLink>
+      <div className={s.userMenu}>
+        <UserMenu />
+      </div>
     </nav>
   );
 };

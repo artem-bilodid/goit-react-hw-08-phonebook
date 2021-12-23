@@ -8,7 +8,7 @@ const Register = props => {
     <Container>
       <h1>Register</h1>
       <Card>
-        <RegisterForm />
+        <RegisterForm onSubmit={() => ({})} />
       </Card>
     </Container>
   );
