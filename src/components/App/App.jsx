@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react';
 import Header from 'components/Header';
 import Container from 'components/Container';
 import Navigation from 'components/Navigation';
+import Loader from 'components/Loader';
 
 const Contacts = lazy(() => import(/* webpackChunkName: "Contacts" */ 'views/Contacts'));
 const Login = lazy(() => import(/* webpackChunkName: "Login" */ 'views/Login'));
@@ -17,7 +18,7 @@ const App = () => {
           <Navigation />
         </Container>
       </Header>
-      <Suspense fallback={<Container>Loading...</Container>}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Contacts />} />
           <Route path="/login" element={<Login />} />

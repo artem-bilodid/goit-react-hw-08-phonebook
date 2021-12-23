@@ -6,6 +6,7 @@ import ContactList from 'components/ContactList';
 import Filter from 'components/Filter';
 import Container from 'components/Container';
 import Card from 'components/Card';
+import Loader from 'components/Loader';
 import { contactsSelectors, contactsOperations } from 'redux/contacts';
 
 const Contacts = props => {
@@ -48,7 +49,7 @@ const Contacts = props => {
       </div>
       <Card>
         {isLoading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <ContactList contacts={filteredContacts} handleDelete={handleDeleteContact} />
         )}
