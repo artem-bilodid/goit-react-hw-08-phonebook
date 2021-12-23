@@ -1,0 +1,7 @@
+@import './styles/shared/colors';
+
+body {
+  color: color('primary');
+  background-color: color('background');
+  box-sizing: content-box;
+}

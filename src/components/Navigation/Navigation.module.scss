@@ -1,0 +1,23 @@
+@import '../../styles/shared/colors';
+
+.navigation {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.link {
+  color: color('secondary');
+  text-decoration: none;
+  transition: color 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &:hover,
+  &:focus {
+    color: color('accent');
+  }
+}
+
+.active {
+  @extend .link;
+  color: color('accent');
+}

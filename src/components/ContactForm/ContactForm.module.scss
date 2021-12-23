@@ -1,0 +1,19 @@
+.form {
+  width: 380px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.button {
+  margin-top: 20px;
+  width: 250px;
+}
