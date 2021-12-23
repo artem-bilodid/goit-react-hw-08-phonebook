@@ -1,0 +1,7 @@
+import { getFilter } from '../filter/filter-selector';
+import { createSelector } from '@reduxjs/toolkit';
+
+export const getUser = state => state.auth.user;
+export const getToken = state => state.auth.token;
+export const getIsLoggedIn = state => state.auth.isLoggedIn;
+export const getIsCurrentUserRetreived = state => state.auth.isCurrentUserRetreived;
