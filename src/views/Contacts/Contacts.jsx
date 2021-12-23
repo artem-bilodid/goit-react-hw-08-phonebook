@@ -1,7 +1,7 @@
 import s from './Contacts.module.scss';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ContactForm from 'components/ContactForm';
 import ContactList from 'components/ContactList';
 import Filter from 'components/Filter';
@@ -13,6 +13,7 @@ import { authSelectors, authOperations } from 'redux/auth';
 
 const Contacts = props => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = useSelector(authSelectors.getToken);
   const contacts = useSelector(contactsSelectors.getContacts);
   const filteredContacts = useSelector(contactsSelectors.getFilteredContacts);
@@ -20,6 +21,10 @@ const Contacts = props => {
   const isInvalidated = useSelector(contactsSelectors.getInvalidated);
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   const isCurrentUserRetreived = useSelector(authSelectors.getIsCurrentUserRetreived);
+
+  useEffect(() => {
+    if (!isLoggedIn || !isCurrentUserRetreived) navigate('/login', { replace: true });
+  }, [navigate, isLoggedIn, isCurrentUserRetreived]);
 
   useEffect(() => {
     if (token) authOperations.setToken(token);
@@ -44,32 +49,26 @@ const Contacts = props => {
     dispatch(contactsOperations.addContact({ name, number }));
   };
   return (
-    <>
-      {isLoggedIn && isCurrentUserRetreived ? (
-        <Container>
-          <h1>Phonebook</h1>
-          <Card>
-            <ContactForm onSubmit={handleAddContact} />
-          </Card>
+    <Container>
+      <h1>Phonebook</h1>
+      <Card>
+        <ContactForm onSubmit={handleAddContact} />
+      </Card>
 
-          <h2>Contacts</h2>
-          <div className={s.filterCard}>
-            <Card>
-              <Filter />
-            </Card>
-          </div>
-          <Card>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <ContactList contacts={filteredContacts} handleDelete={handleDeleteContact} />
-            )}
-          </Card>
-        </Container>
-      ) : (
-        <Navigate to="/login" replace={true} />
-      )}
-    </>
+      <h2>Contacts</h2>
+      <div className={s.filterCard}>
+        <Card>
+          <Filter />
+        </Card>
+      </div>
+      <Card>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <ContactList contacts={filteredContacts} handleDelete={handleDeleteContact} />
+        )}
+      </Card>
+    </Container>
   );
 };
 
