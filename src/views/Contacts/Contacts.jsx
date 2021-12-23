@@ -20,11 +20,10 @@ const Contacts = props => {
   const isLoading = useSelector(contactsSelectors.getLoading);
   const isInvalidated = useSelector(contactsSelectors.getInvalidated);
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-  const isCurrentUserRetreived = useSelector(authSelectors.getIsCurrentUserRetreived);
 
   useEffect(() => {
-    if (!isLoggedIn || !isCurrentUserRetreived) navigate('/login', { replace: true });
-  }, [navigate, isLoggedIn, isCurrentUserRetreived]);
+    if (!isLoggedIn) navigate('/login', { replace: true });
+  }, [navigate, isLoggedIn]);
 
   useEffect(() => {
     if (token) authOperations.setToken(token);

@@ -8,7 +8,7 @@ const user = createReducer(EMPTY_USER, {
   [authActions.signupSuccess]: (_, { payload }) => payload.user,
   [authActions.loginSuccess]: (_, { payload }) => payload.user,
   [authActions.logoutSuccess]: () => EMPTY_USER,
-  [authActions.getCurrentUserSuccess]: (_, { payload }) => payload,
+  [authActions.getCurrentUserSuccess]: (_, { payload }) => payload.user,
 });
 
 const token = createReducer(null, {
@@ -24,16 +24,14 @@ const isLoggedIn = createReducer(false, {
   [authActions.logoutSuccess]: () => false,
 });
 
-const isCurrentUserRetreived = createReducer(false, {
-  [authActions.getCurrentUserSuccess]: () => true,
-  [authActions.signupSuccess]: () => true,
-  [authActions.loginSuccess]: () => true,
-  [authActions.logoutSuccess]: () => false,
+const isFetchingCurrentUser = createReducer(false, {
+  [authActions.getCurrentUserRequest]: () => true,
+  [authActions.getCurrentUserSuccess]: () => false,
 });
 
 export const auth = combineReducers({
   user,
   token,
   isLoggedIn,
-  isCurrentUserRetreived,
+  isFetchingCurrentUser,
 });

@@ -10,12 +10,16 @@ const UserMenu = props => {
   const dispatch = useDispatch();
   const token = useSelector(authSelectors.getToken);
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-  const isCurrentUserRetreived = useSelector(authSelectors.getIsCurrentUserRetreived);
+  const isFetchingCurrentUser = useSelector(authSelectors.getIsFetchingCurrentUser);
   const { name } = useSelector(authSelectors.getUser);
 
   useEffect(() => {
     if (token) authOperations.setToken(token);
   }, [token]);
+
+  useEffect(() => {
+    if (token && !isLoggedIn) dispatch(authOperations.getCurrentUser());
+  }, [isLoggedIn, token, dispatch]);
 
   const performLogout = () => {
     dispatch(authOperations.logout());
@@ -23,7 +27,7 @@ const UserMenu = props => {
 
   return (
     <>
-      {isLoggedIn && isCurrentUserRetreived ? (
+      {isLoggedIn ? (
         <>
           <h3 className={s.name}>{name}</h3>
           <button className={s.logout} type="button" onClick={performLogout}>

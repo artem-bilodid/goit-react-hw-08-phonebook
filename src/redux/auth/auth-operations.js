@@ -39,14 +39,12 @@ export const logout = () => async dispatch => {
   }
 };
 
-export const getCurrentUser =
-  ({ email, password }) =>
-  async dispatch => {
-    dispatch(authActions.getCurrentUserRequest());
-    try {
-      const { user } = await API.getCurrentUser({ email, password });
-      dispatch(authActions.getCurrentUserSuccess({ user }));
-    } catch (error) {
-      dispatch(authActions.getCurrentUserError());
-    }
-  };
+export const getCurrentUser = () => async dispatch => {
+  dispatch(authActions.getCurrentUserRequest());
+  try {
+    const user = await API.getCurrentUser();
+    dispatch(authActions.getCurrentUserSuccess({ user }));
+  } catch (error) {
+    dispatch(authActions.getCurrentUserError());
+  }
+};

@@ -7,11 +7,10 @@ import { authSelectors } from 'redux/auth';
 const Navigation = props => {
   const defineLinkClass = ({ isActive }) => (isActive ? s.active : s.link);
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-  const isCurrentUserRetreived = useSelector(authSelectors.getIsCurrentUserRetreived);
 
   return (
     <nav className={s.navigation}>
-      {isLoggedIn && isCurrentUserRetreived && (
+      {isLoggedIn && (
         <NavLink className={defineLinkClass} to="/">
           Contacts
         </NavLink>

@@ -9,11 +9,10 @@ import RegisterForm from 'components/RegisterForm';
 const Register = props => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-  const isCurrentUserRetreived = useSelector(authSelectors.getIsCurrentUserRetreived);
 
   useEffect(() => {
-    if (isLoggedIn && isCurrentUserRetreived) navigate('/', { replace: true });
-  }, [navigate, isLoggedIn, isCurrentUserRetreived]);
+    if (isLoggedIn) navigate('/', { replace: true });
+  }, [navigate, isLoggedIn]);
 
   return (
     <Container>
